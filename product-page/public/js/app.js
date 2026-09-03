@@ -16,10 +16,21 @@ function renderProducts(products) {
       <h3>${product.name}</h3>
       <p class="price">$${product.price.toFixed(2)}</p>
       <p class="description">${product.description}</p>
+      <button class="delete-btn" data-id="${product._id}">Delete</button>
     `;
     list.appendChild(card);
   });
 }
+
+const productList = document.getElementById('product-list');
+
+productList.addEventListener('click', async (e) => {
+  if (!e.target.classList.contains('delete-btn')) return;
+
+  const id = e.target.dataset.id;
+  await fetch(`/api/products/${id}`, { method: 'DELETE' });
+  loadProducts();
+});
 
 const addProductForm = document.getElementById('add-product-form');
 
