@@ -21,4 +21,27 @@ function renderProducts(products) {
   });
 }
 
+const addProductForm = document.getElementById('add-product-form');
+
+addProductForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(addProductForm);
+  const product = {
+    name: formData.get('name'),
+    price: parseFloat(formData.get('price')),
+    description: formData.get('description'),
+    imageUrl: formData.get('imageUrl'),
+  };
+
+  await fetch('/api/products', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(product),
+  });
+
+  addProductForm.reset();
+  loadProducts();
+});
+
 loadProducts();
